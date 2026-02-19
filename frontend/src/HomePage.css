@@ -1,0 +1,56 @@
+
+
+.main-page-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  height: 100%;
+  margin: 0 auto;
+  border: 1px black;
+  align-items: center;
+
+}
+.main-page-title {
+  color: var(--light-mode-text)
+
+}
+.board-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  border: 1px black outset;
+  border-radius: 20px;
+  width: 100%;
+  aspect-ratio: 1/1;
+  align-items: stretch;
+  justify-items: stretch;
+  
+}
+.clue-tile {
+  display: flex;
+  border: 1px white outset;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  margin: 1vw;
+  cursor: pointer;
+}
+.clue-tile:hover {
+  transform: scale(1.05);
+}
+.admin-button {
+    position: fixed;
+    top: 0;
+    right: 0;
+    
+}
+
+
+@media (max-width: 768px) {
+  
+}

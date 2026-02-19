@@ -1,0 +1,69 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: movieconnections-db
+    environment:
+      POSTGRES_DB: movieconnections
+      POSTGRES_USER: movieuser
+      POSTGRES_PASSWORD: moviepass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - movieconnections-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U movieuser -d movieconnections"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: movieconnections-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/movieconnections
+      SPRING_DATASOURCE_USERNAME: movieuser
+      SPRING_DATASOURCE_PASSWORD: moviepass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 1GB
+      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 1GB
+      SERVER_TOMCAT_MAX_HTTP_POST_SIZE: 1073741824
+      SERVER_TOMCAT_MAX_SWALLOW_SIZE: 1073741824
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - movieconnections-network
+    volumes:
+      - ./backend:/app
+      - /app/target
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: movieconnections-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:8080/api
+    depends_on:
+      - backend
+    networks:
+      - movieconnections-network
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+
+volumes:
+  postgres_data:
+  frontend_node_modules:
+
+networks:
+  movieconnections-network:
+    driver: bridge

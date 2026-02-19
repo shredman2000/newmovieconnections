@@ -1,0 +1,50 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  --light-mode-text: black;
+}
+
+
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: system-ui, sans-serif;
+  background: var(--background);
+  background-size: 800% 800%;
+  animation: backgroundGradientAnimation 20s ease infinite;
+}
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;          
+  flex-direction: column;  
+}
+
+
+@media (prefers-color-scheme: dark) { 
+  :root {
+    --bg-gradient: linear-gradient(135deg, #2c3e50, #4ca1af);
+    --text-color: #ffffff;
+  } 
+}
+
+
+@keyframes backgroundGradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
