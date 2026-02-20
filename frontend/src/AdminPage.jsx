@@ -21,6 +21,7 @@ function AdminPage() {
       clues4: [null, null, null, null]
     },
   ])
+  const [goLiveDate, setGoLiveDate] = useState("");
 
   async function handleClueImageChange(movieIndex, clueIndex, file) {
     setGame(prev => {
@@ -44,7 +45,7 @@ function AdminPage() {
 
     if (!res.ok) throw new Error("Cloudinary upload failed");
 
-    const data = await res.json();
+    const data = await res.text();
     return data.secure_url;
 
   }
@@ -53,6 +54,7 @@ function AdminPage() {
   async function handleSubmit() {
     const payload = {};
     let totalSize = 0;
+    payload.goLiveDate = goLiveDate;
 
     const uploadPromises = [];
 
@@ -272,6 +274,7 @@ function AdminPage() {
       </div>
 
       <div className='settings'>
+        <input type="date" id="goLiveDate" value={goLiveDate} onChange={e => setGoLiveDate(e.target.value)}/>
         <button className='submit-button' onClick={() => handleSubmit()}>Submit</button>
       </div>
     </div>

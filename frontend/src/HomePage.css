@@ -39,6 +39,16 @@
   align-items: center;
   margin: 1vw;
   cursor: pointer;
+  overflow: hidden;
+}
+.clue-tile.selected {
+  border: 3px solid green;
+  transform: scale(1.05);
+}
+.clue-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .clue-tile:hover {
   transform: scale(1.05);
